@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>English Quiz</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="lessons.html">Lessons</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="translation.html">🌐 Translation</a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Test Your Knowledge</h2>
+            <p>Answer the following questions:</p>
+
+            <div id="quiz">
+                <!-- Lesson 1: Basic Grammar -->
+                <div class="question">
+                    <p><strong>Lesson 1: Basic Grammar</strong></p>
+                    <p>1. What is the subject in the sentence: "The dog chases the ball"?</p>
+                    <input type="radio" name="q1" value="a"> The ball<br>
+                    <input type="radio" name="q1" value="b"> The dog<br>
+                    <input type="radio" name="q1" value="c"> Chases<br>
+                </div>
+
+                <div class="question">
+                    <p>2. Which of the following is a noun?</p>
+                    <input type="radio" name="q2" value="a"> Run<br>
+                    <input type="radio" name="q2" value="b"> Happiness<br>
+                    <input type="radio" name="q2" value="c"> Quickly<br>
+                </div>
+
+                <div class="question">
+                    <p>3. What is the correct verb in the sentence: "They ___ at the park every Saturday"?</p>
+                    <input type="radio" name="q3" value="a"> Play<br>
+                    <input type="radio" name="q3" value="b"> Plays<br>
+                    <input type="radio" name="q3" value="c"> Played<br>
+                </div>
+
+                <!-- Lesson 2: Vocabulary Building -->
+                <div class="question">
+                    <p><strong>Lesson 2: Vocabulary Building</strong></p>
+                    <p>4. Which of the following is an adjective?</p>
+                    <input type="radio" name="q4" value="a"> Apple<br>
+                    <input type="radio" name="q4" value="b"> Run<br>
+                    <input type="radio" name="q4" value="c"> Small<br>
+                </div>
+
+                <div class="question">
+                    <p>5. What is the correct verb in the sentence: "He ___ to the store every day"?</p>
+                    <input type="radio" name="q5" value="a"> Go<br>
+                    <input type="radio" name="q5" value="b"> Goes<br>
+                    <input type="radio" name="q5" value="c"> Going<br>
+                </div>
+
+                <div class="question">
+                    <p>6. Which of the following is a verb?</p>
+                    <input type="radio" name="q6" value="a"> Happiness<br>
+                    <input type="radio" name="q6" value="b"> Quickly<br>
+                    <input type="radio" name="q6" value="c"> Jump<br>
+                </div>
+
+                <!-- Lesson 3: Common Phrases -->
+                <div class="question">
+                    <p><strong>Lesson 3: Common Phrases</strong></p>
+                    <p>7. How would you greet someone in the morning?</p>
+                    <input type="radio" name="q7" value="a"> Good night<br>
+                    <input type="radio" name="q7" value="b"> Good morning<br>
+                    <input type="radio" name="q7" value="c"> Hello<br>
+                </div>
+
+                <div class="question">
+                    <p>8. Which phrase would you use to ask for directions?</p>
+                    <input type="radio" name="q8" value="a"> Can you help me find the library?<br>
+                    <input type="radio" name="q8" value="b"> Could you pass the salt?<br>
+                    <input type="radio" name="q8" value="c"> How are you?<br>
+                </div>
+
+                <div class="question">
+                    <p>9. Which phrase would you use to make a request?</p>
+                    <input type="radio" name="q9" value="a"> Can you help me?<br>
+                    <input type="radio" name="q9" value="b"> How are you?<br>
+                    <input type="radio" name="q9" value="c"> Good morning!<br>
+                </div>
+
+                <button onclick="submitQuiz()">Submit</button>
+            </div>
+
+            <div id="result"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 English Study Website</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz Game 🎮</title>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            font-family: Arial, sans-serif;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background-color: #e0ffff;
+            overflow: hidden;
+            border: 2px solid #87ceeb;
+            margin: 20px auto;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #game-character {
+            position: absolute;
+            bottom: 50px;
+            width: 50px;
+            height: 50px;
+            background-color: #ff6347;
+            border-radius: 50%;
+        }
+
+        #game-obstacle {
+            position: absolute;
+            bottom: 50px;
+            right: -50px;
+            width: 50px;
+            height: 50px;
+            background-color: #ffd700;
+            border-radius: 50%;
+        }
+
+        #question-popup {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 2px solid #ff69b4;
+            border-radius: 10px;
+            display: none;
+            z-index: 10;
+        }
+
+        #question-text {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #answer-input, #submit-answer {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        #submit-answer {
+            background-color: #32cd32;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #submit-answer:hover {
+            background-color: #28a745;
+        }
+
+        #scoreboard {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 2px solid #ff4500;
+            border-radius: 10px;
+        }
+
+        #replay-menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 30px;
+            border: 2px solid #4b0082;
+            border-radius: 15px;
+            display: none;
+            z-index: 20;
+            text-align: center;
+        }
+
+        #replay-menu p {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        #replay-menu button {
+            padding: 15px 25px;
+            background-color: #ff1493;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        #replay-menu button:hover {
+            background-color: #ff69b4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>English Quiz Game 🎮</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="lessons.html">📚 Lessons</a>
+            <a href="quiz.html">📝 Quiz</a>
+            <a href="translation.html">🌐 Translation</a>
+            <a href="game.html">🎮 Game</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="game-container">
+            <div id="game-character"></div>
+            <div id="game-obstacle"></div>
+            <div id="question-popup">
+                <p id="question-text"></p>
+                <input type="text" id="answer-input" placeholder="Type your answer...">
+                <button id="submit-answer">Submit</button>
+            </div>
+            <div id="scoreboard">
+                <p>Score: <span id="score">0</span></p>
+            </div>
+            <div id="replay-menu">
+                <p>Game Over! Your final score is <span id="final-score">0</span></p>
+                <button id="replay-button">Play Again</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 English Study Website | Designed with ❤️</p>
+    </footer>
+
+    <script>
+        const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key
+        const questionPrompt = 'Generate an English grammar or vocabulary question with its answer.';
+        let score = 0;
+        let currentQuestion = {};
+    
+        const gameCharacter = document.getElementById('game-character');
+        const gameObstacle = document.getElementById('game-obstacle');
+        const questionPopup = document.getElementById('question-popup');
+        const questionText = document.getElementById('question-text');
+        const answerInput = document.getElementById('answer-input');
+        const submitAnswer = document.getElementById('submit-answer');
+        const scoreElement = document.getElementById('score');
+        const replayMenu = document.getElementById('replay-menu');
+        const finalScoreElement = document.getElementById('final-score');
+        const replayButton = document.getElementById('replay-button');
+    
+        function startGame() {
+            document.addEventListener('keydown', handleKeyPress);
+            setInterval(moveObstacle, 20);
+            fetchQuestion();
+            replayMenu.style.display = 'none';
+        }
+    
+        function handleKeyPress(event) {
+            if (event.code === 'Space') {
+                jump();
+            } else if (event.code === 'Enter') {
+                submitAnswerHandler();
+            }
+        }
+    
+        function jump() {
+            if (parseInt(window.getComputedStyle(gameCharacter).getPropertyValue('bottom')) === 50) {
+                gameCharacter.style.bottom = '150px';
+                setTimeout(() => {
+                    gameCharacter.style.bottom = '50px';
+                }, 300);
+            }
+        }
+    
+        function moveObstacle() {
+            let obstaclePosition = parseInt(window.getComputedStyle(gameObstacle).getPropertyValue('right'));
+            obstaclePosition += 5;
+            gameObstacle.style.right = obstaclePosition + 'px';
+    
+            if (obstaclePosition > window.innerWidth) {
+                gameObstacle.style.right = '-50px';
+                increaseScore();
+            }
+    
+            const characterBottom = parseInt(window.getComputedStyle(gameCharacter).getPropertyValue('bottom'));
+            const obstacleRight = parseInt(window.getComputedStyle(gameObstacle).getPropertyValue('right'));
+    
+            if (obstaclePosition > window.innerWidth - 60 && obstaclePosition < window.innerWidth - 40) {
+                if (characterBottom === 50 && (obstacleRight > window.innerWidth - 110 && obstacleRight < window.innerWidth - 60)) {
+                    endGame();
+                }
+            }
+        }
+    
+        function fetchQuestion() {
+            fetch('https://api.openai.com/v1/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'text-davinci-003',
+                    prompt: questionPrompt,
+                    max_tokens: 50
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const result = data.choices[0].text.trim().split('\n');
+                currentQuestion.question = result[0];
+                currentQuestion.answer = result[1].toLowerCase();
+                displayQuestion();
+            })
+            .catch(error => {
+                console.error('Error fetching question:', error);
+            });
+        }
+    
+        function displayQuestion() {
+            questionText.textContent = currentQuestion.question;
+            questionPopup.style.display = 'block';
+        }
+    
+        function submitAnswerHandler() {
+            const userAnswer = answerInput.value.trim().toLowerCase();
+    
+            if (userAnswer === currentQuestion.answer) {
+                increaseScore();
+                questionPopup.style.display = 'none';
+                answerInput.value = '';
+                fetchQuestion(); // Fetch a new question after answering
+            } else {
+                alert('Incorrect answer! Try again.');
+            }
+        }
+    
+        function increaseScore() {
+            score += 10;
+            scoreElement.textContent = score;
+        }
+    
+        function endGame() {
+            finalScoreElement.textContent = score;
+            replayMenu.style.display = 'block';
+            document.removeEventListener('keydown', handleKeyPress);
+        }
+    
+        function restartGame() {
+            score = 0;
+            scoreElement.textContent = score;
+            replayMenu.style.display = 'none';
+            startGame();
+        }
+    
+        submitAnswer.addEventListener('click', submitAnswerHandler);
+        replayButton.addEventListener('click', restartGame);
+    
+        startGame();
+    </script>
+    
+  
+</body>
+</html>

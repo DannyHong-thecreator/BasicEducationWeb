@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation & Grammar Correction 🌐</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #87cefa;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .translation-service {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .translation-service h2 {
+            color: #4682b4;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #f8f8f8;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .results-section {
+            margin-top: 20px;
+        }
+
+        .results-content {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+        }
+
+        footer {
+            background-color: #87cefa;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Translation & Grammar Correction 🌐</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="lessons.html">📚 Lessons</a>
+            <a href="quiz.html">📝 Quiz</a>
+            <a href="translation.html">🌐 Translation</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="translation-service">
+            <h2>Translate Text or Correct Grammar ✍️</h2>
+            <form id="translation-form">
+                <label for="text-input">Enter Text:</label>
+                <textarea id="text-input" name="text-input" rows="6" placeholder="Type your text here..."></textarea>
+
+                <label for="language-option">Select Operation:</label>
+                <select id="language-option" name="language-option">
+                    <option value="vn-to-en">Vietnamese to English</option>
+                    <option value="en-to-vn">English to Vietnamese</option>
+                    <option value="grammar-correction">Grammar Correction</option>
+                </select>
+
+                <button type="submit" class="cta-button">Submit 🌟</button>
+            </form>
+
+            <section id="results" class="results-section">
+                <h3>Results:</h3>
+                <div id="translated-text" class="results-content">
+                    <!-- Results will be displayed here -->
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 English Study Website | Designed with ❤️</p>
+    </footer>
+
+    <script>
+        document.getElementById('translation-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const textInput = document.getElementById('text-input').value;
+            const languageOption = document.getElementById('language-option').value;
+            let resultText = '';
+
+            switch (languageOption) {
+                case 'vn-to-en':
+                    resultText = `Translated (VN to EN): ${textInput}`;
+                    break;
+                case 'en-to-vn':
+                    resultText = `Translated (EN to VN): ${textInput}`;
+                    break;
+                case 'grammar-correction':
+                    resultText = `Corrected Grammar: ${textInput}`;
+                    break;
+            }
+
+            document.getElementById('translated-text').innerText = resultText;
+        });
+    </script>
+</body>
+</html>
